@@ -28,7 +28,7 @@ def probability_of_tokens(container: tuple, num_of_reps: int, desired_token_colo
     #if len(samples) == num_of_reps:
     return p_of_tokens
     #return samples
-    print(probability_of_tokens(bag2, 10000, "Red"))
+    #print(probability_of_tokens(bag2, 10000, "Red"))
     #else:
         #print("pick_samples not ample")
 
@@ -48,15 +48,17 @@ def sample_experiment(bag):
 
     if selected_token == "Red":
         probability_of_selecting_heads = 4 / 5
+        #probability_of_selecting_heads = 2 /3
     else:
         probability_of_selecting_heads = 2 / 5
+        #probability_of_selecting_heads = 1 / 2
 
     if random.random() < probability_of_selecting_heads:
         coin = "Heads"
     else:
         coin = "Tails"
     return selected_token, coin
-print(sample_experiment(bag2))
+#print(sample_experiment(bag2))
 
 def samples_with_heads(bag, num_of_reps):
     samples = [sample_experiment(bag) for i in range(num_of_reps)]
@@ -64,11 +66,14 @@ def samples_with_heads(bag, num_of_reps):
 #print(samples_with_heads(bag2, 10000))
 #Expect around 0.56944444
 
-def prob_of_red_if_heads(bag):
-    s = [(token, coin) for token, coin in sample_experiment(bag) if coin == "Heads"]
-    return sum(token == "Red" for token, coin in s) / len(s)
-print(prob_of_red_if_heads(bag2))
-# #Expect around 0.48780488
+def prob_of_red_if_heads(bag, num_of_reps):
+    s = [ sample_experiment(bag) for _ in range(num_of_reps)]
+    h = [(token, coin) for token, coin in s if coin == "Heads"]
+    #s = [(token, coin) for token, coin in sample_experiment(bag) if coin == "Heads"]
+    return sum(token == "Red" for token, coin in h) / len(h)
+
+# bag_t = ["Red"] * 5 + ["Blue"] * 7
+# print(prob_of_red_if_heads(bag_t, 1000000))
 
 
 print("1)\n" + "Probability of 2/7 is " + str(probability(2,7)))
@@ -82,4 +87,4 @@ print("Probability of picking a red token from bag 3 is " + str(probability_of_t
 
 print("3)\n" + "Probability of picking a red token from bag 4 is " + str(probability_of_tokens(bag4, 10000, "Red")))
 print("Probability of Heads is " + str(samples_with_heads(bag4, 10000)))
-#print("Probability of Red with Heads is " + str(prob_of_red_if_heads(bag4)))
+print("Probability of Red with Heads is " + str(prob_of_red_if_heads(bag4, 10000)))
